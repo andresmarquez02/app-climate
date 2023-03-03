@@ -7,6 +7,7 @@ import LisWeatherForecastComponent from './ListWeatherForecastComponent.vue'
 import AlertProcessClimate from './AlertProcessClimate.vue'
 import ImgCardClimateComponent from './ImgCardClimateComponent.vue'
 import DivColorCardComponent from './DivColorCardComponent.vue'
+import SkeletonClimateComponent from './SkeletonClimateComponent.vue'
 
 // Variable que controla la ubicacion que viene por el input
 const location = ref("");
@@ -17,15 +18,16 @@ const weatherForecast = ref("");
 // Variable para obtener las coordenadas del usuario
 const coords = ref({});
 // Variable de procesos
-const process = ref("loading");
+const process = ref("searching");
 
 // Funcion para obtencion del clima
 const getClimate = async (e, type = "weather") => {
+    process.value = 'searching';
     // Existe un type para asi saber cuando hacer una consulta  a la api de una ciudad y despoues saber 
     // la prevision del clima durante los siguientes dias
     const peticion = await fetch(`${import.meta.env.VITE_OPENWEATHER_URL_BASE}/${type}?q=${location.value}&lat=${coords.value.lat}&lon=${coords.value.long}&units=metric&APPID=${import.meta.env.VITE_OPENWEATHER_API_KEY}`);
     const response = await peticion.json();
- 
+
     if (type == "weather") {
         locationClimate.value = response;
         getClimate("", "forecast");
@@ -36,8 +38,8 @@ const getClimate = async (e, type = "weather") => {
             lat: "",
             long: "",
         };
+        process.value = '';
     }
-    process.value = '';
 }
 // Obtencion y asignacion de las coordenadas a las variables
 const showPosition = (position) => {
@@ -79,36 +81,44 @@ onMounted(() => {
                 </div>
                 <p class="mt-1 text-sm text-gray-400">Press Enter for search</p>
             </div>
-            <DivColorCardComponent v-if="locationClimate !== ''" :locationClimate="locationClimate">
-                <div class="flex justify-between">
-                    <h5 class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white" @click="getLocation">
-                        <i class="fa-solid fa-location-dot"></i>
-                    </h5>
-                    <h5 class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white">{{
-                        locationClimate.name }}</h5>
-                    <a href="https://andresmarquez02.github.io/" class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                </div>
-                <div class="flex justify-center my-5">
-                    <ImgCardClimateComponent :locationClimate="locationClimate"/>
-                </div>
-                <div class="flex justify-center my-5">
-                    <h1 class="inline ml-3 text-3xl font-bold text-white">{{ locationClimate.main.temp }}°</h1>
-                    <span class="flex self-end ml-2 text-sm text-white align-bottom" v-for="weather in locationClimate.weather">{{ weather.main
-                    }}</span>
-                </div>
-                <ul class="w-full text-sm font-medium text-white rounded-lg">
-                    <LisWeatherForecastComponent :weatherForecast="weatherForecast"/>
-                </ul>
-                <div class="flex justify-end mt-3">
-                    <a href="https://andresmarquez02.github.io/" class="text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 shadow">
-                        <i class="fa-brands fa-github"></i>
-                        Github
-                    </a>
+            <DivColorCardComponent :locationClimate="locationClimate">
+                <template v-if="locationClimate !== '' && process == ''">
+                    <div class="flex justify-between">
+                        <h5 class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white"
+                            @click="getLocation">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </h5>
+                        <h5 class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white">{{
+                            locationClimate.name }}</h5>
+                        <a href="https://andresmarquez02.github.io/"
+                            class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </div>
+                    <div class="flex justify-center my-5">
+                        <ImgCardClimateComponent :locationClimate="locationClimate" />
+                    </div>
+                    <div class="flex justify-center my-5">
+                        <h1 class="inline ml-3 text-3xl font-bold text-white">{{ locationClimate.main.temp }}°</h1>
+                        <span class="flex self-end ml-2 text-sm text-white align-bottom"
+                            v-for="weather in locationClimate.weather">{{ weather.main
+                            }}</span>
+                    </div>
+                    <ul class="w-full text-sm font-medium text-white rounded-lg">
+                        <LisWeatherForecastComponent :weatherForecast="weatherForecast" />
+                    </ul>
+                    <div class="flex justify-end mt-3">
+                        <a href="https://andresmarquez02.github.io/"
+                            class="text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 shadow">
+                            <i class="fa-brands fa-github"></i>
+                            Github
+                        </a>
+                    </div>
+                </template>
+                <div v-if="process == 'searching'">
+                    <SkeletonClimateComponent/>
                 </div>
             </DivColorCardComponent>
-            <AlertProcessClimate :process="process"/>
-        </div>
+            <AlertProcessClimate :process="process" />
     </div>
-</template>
+</div></template>

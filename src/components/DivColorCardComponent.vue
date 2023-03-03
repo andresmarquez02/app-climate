@@ -2,7 +2,7 @@
 
 import { computed } from 'vue';
 
-const props = defineProps(["locationClimate"]);
+const props = defineProps(["locationClimate", "process"]);
 
 // Computed para saber que color va a asignar a la card
 const colorCard = computed(() => {
@@ -29,6 +29,8 @@ const colorCard = computed(() => {
             default:
                 return "from-sky-300 to-blue-400";
         }
+    } else {
+        return "from-sky-300 to-blue-400";
     }
 });
 
