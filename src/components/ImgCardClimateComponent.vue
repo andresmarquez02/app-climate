@@ -6,31 +6,30 @@ const props = defineProps(['locationClimate']);
 // Compputed para saber cual es la imagen que debe agregar
 const imgCard = computed(() => {
     if (props.locationClimate) {
-        switch (props.locationClimate.weather[0].main) {
-            case "Sun":
-                return "sun.png";
-            case "Clear":
-                return "sun.png";
-            case "Clouds":
-                return "clouds.png";
-            case "Snow":
-                return "snow.png";
-            case "Wind":
-                return "wind.png";
-            case "Drizzle":
-                return "rain.png";
-            case "Rain":
-                return "rain.png";
-            case "Extreme":
-                return "storm.png";
-            case "Storm":
-                return "storm.png";
-            default:
-                return "sun.png";
-        }
+        return props.locationClimate.weather[0].main;
     }
 });
 </script>
 <template>
-    <img src="@/assets/clouds.png" class="h-44" alt="" srcset="">
+    <template v-if="imgCard == 'Sun' || imgCard == 'Clear'">
+        <img src="../assets/img/sun.png" class="h-44" alt="" srcset="">
+    </template>
+    <template v-else-if="imgCard == 'Clouds'">
+        <img src="../assets/img/clouds.png" class="h-44" alt="" srcset="">
+    </template>
+    <template v-else-if="imgCard == 'Snow'">
+        <img src="../assets/img/snow.png" class="h-44" alt="" srcset="">
+    </template>
+    <template v-else-if="imgCard == 'Wind'">
+        <img src="../assets/img/wind.png" class="h-44" alt="" srcset="">
+    </template>
+    <template v-else-if="imgCard == 'Drizzle' || imgCard == 'Rain'">
+        <img src="../assets/img/rain.png" class="h-44" alt="" srcset="">
+    </template>
+    <template v-else-if="imgCard == 'Extreme' || imgCard == 'Storm'">
+        <img src="../assets/img/storm.png" class="h-44" alt="" srcset="">
+    </template>
+    <template v-else>
+        <img src="../assets/img/sun.png" class="h-44" alt="" srcset="">
+    </template>
 </template>
