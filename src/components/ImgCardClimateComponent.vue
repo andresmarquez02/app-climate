@@ -32,5 +32,5 @@ const imgCard = computed(() => {
 });
 </script>
 <template>
-    <img :src="'src/assets/img/' + imgCard" class="h-44" alt="" srcset="">
+    <img src="@/assets/clouds.png" class="h-44" alt="" srcset="">
 </template>
