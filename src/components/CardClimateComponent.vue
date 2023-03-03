@@ -72,7 +72,9 @@ onMounted(() => {
             <div class="mb-5">
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <i class="w-5 h-5 text-gray-500 fa-solid fa-location-dot dark:text-gray-400"></i>
+                        <span class="w-5 h-5 text-gray-500 dark:text-gray-400">
+                            <font-awesome-icon icon="fa-solid fa-location-dot" />
+                        </span>
                     </div>
 
                     <input type="text" id="email-address-icon"
@@ -86,13 +88,13 @@ onMounted(() => {
                     <div class="flex justify-between">
                         <h5 class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white"
                             @click="getLocation">
-                            <i class="fa-solid fa-location-dot"></i>
+                            <font-awesome-icon icon="fa-solid fa-location-dot" />
                         </h5>
                         <h5 class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white">{{
                             locationClimate.name }}</h5>
                         <a href="https://andresmarquez02.github.io/"
                             class="mb-2 text-base font-semibold tracking-tight text-white dark:text-white">
-                            <i class="fa-brands fa-github"></i>
+                            <font-awesome-icon icon="fa-brands fa-github" />
                         </a>
                     </div>
                     <div class="flex justify-center my-5">
@@ -110,7 +112,7 @@ onMounted(() => {
                     <div class="flex justify-end mt-3">
                         <a href="https://andresmarquez02.github.io/"
                             class="text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 shadow">
-                            <i class="fa-brands fa-github"></i>
+                            <font-awesome-icon icon="fa-brands fa-github" />
                             Github
                         </a>
                     </div>
